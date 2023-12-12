@@ -266,3 +266,5 @@ build
 
 desktop.ini
 images/
+
+*.output
