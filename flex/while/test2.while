@@ -1,0 +1,10 @@
+fib_0 := 1;
+fib_1 := 1;
+
+i := 0;
+while (i < input) do
+    new_value := fib_0 + fib_1;
+    fib_0 := fib_1;
+    fib_1 := new_value;
+od;
+result := fib_1;

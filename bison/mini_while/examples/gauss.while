@@ -1,0 +1,9 @@
+# Gauss-Summe(x) = 1+2+3+...+x
+x := 100;
+result := 0;
+while x != 0 do
+  result := result + x;
+  x := x - 1;
+od;
+result := result;
+end

@@ -1,0 +1,16 @@
+# Collatz-Funktion
+n := input;
+while 4 < n do
+    x := n;
+    # We have no modulo, so simulate it
+    while 1 < x do
+        x := x - 2;
+    od;
+    if x == 0 then
+        n := n / 2;
+    else
+        n := 3*n+1;
+    fi;
+od;
+result := n;
+end

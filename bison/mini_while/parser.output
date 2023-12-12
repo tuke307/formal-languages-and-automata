@@ -1,0 +1,712 @@
+Terminals unused in grammar
+
+    T_WHILE
+    T_DO
+    T_OD
+
+
+Grammar
+
+    0 $accept: prog $end
+
+    1 prog: stmts T_END
+
+    2 stmts: ε
+    3      | stmt T_SEMICOLON stmts
+    4      | error T_SEMICOLON stmts
+
+    5 stmt: assign
+    6     | expr
+    7     | if
+    8     | skip
+
+    9 skip: T_SKIP
+
+   10 assign: ident T_ASSIGN expr
+
+   11 expr: expr T_EQ add
+   12     | expr T_LESS add
+   13     | expr T_NEQ add
+   14     | add
+
+   15 add: add T_PLUS term
+   16    | add T_MINUS term
+   17    | term
+
+   18 term: term T_MUL factor
+   19     | term T_DIV factor
+   20     | factor
+
+   21 factor: ident
+   22       | T_INT_LITERAL
+   23       | T_LEFT_PAR expr T_RIGHT_PAR
+   24       | T_MINUS T_INT_LITERAL
+
+   25 ident: T_VAR_IDENT
+
+   26 if: T_IF expr T_THEN stmts T_ELSE stmts T_FI
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256) 4
+    T_INT_LITERAL <int_val> (258) 22 24
+    T_VAR_IDENT <var_identifier> (259) 25
+    T_ASSIGN (260) 10
+    T_LEFT_PAR (261) 23
+    T_RIGHT_PAR (262) 23
+    T_SEMICOLON (263) 3 4
+    T_PLUS (264) 15
+    T_MUL (265) 18
+    T_MINUS (266) 16 24
+    T_DIV (267) 19
+    T_EQ (268) 11
+    T_LESS (269) 12
+    T_NEQ (270) 13
+    T_WHILE (271)
+    T_DO (272)
+    T_OD (273)
+    T_IF (274) 26
+    T_THEN (275) 26
+    T_ELSE (276) 26
+    T_FI (277) 26
+    T_SKIP (278) 9
+    T_END (279) 1
+
+
+Nonterminals, with rules where they appear
+
+    $accept (25)
+        on left: 0
+    prog <ast> (26)
+        on left: 1
+        on right: 0
+    stmts <ast> (27)
+        on left: 2 3 4
+        on right: 1 3 4 26
+    stmt <ast> (28)
+        on left: 5 6 7 8
+        on right: 3
+    skip <ast> (29)
+        on left: 9
+        on right: 8
+    assign <ast> (30)
+        on left: 10
+        on right: 5
+    expr <ast> (31)
+        on left: 11 12 13 14
+        on right: 6 10 11 12 13 23 26
+    add <ast> (32)
+        on left: 15 16 17
+        on right: 11 12 13 14 15 16
+    term <ast> (33)
+        on left: 18 19 20
+        on right: 15 16 17 18 19
+    factor <ast> (34)
+        on left: 21 22 23 24
+        on right: 18 19 20
+    ident <ast> (35)
+        on left: 25
+        on right: 10 21
+    if <ast> (36)
+        on left: 26
+        on right: 7
+
+
+State 0
+
+    0 $accept: • prog $end
+
+    error          shift, and go to state 1
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+    T_IF           shift, and go to state 6
+    T_SKIP         shift, and go to state 7
+
+    T_END  reduce using rule 2 (stmts)
+
+    prog    go to state 8
+    stmts   go to state 9
+    stmt    go to state 10
+    skip    go to state 11
+    assign  go to state 12
+    expr    go to state 13
+    add     go to state 14
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 17
+    if      go to state 18
+
+
+State 1
+
+    4 stmts: error • T_SEMICOLON stmts
+
+    T_SEMICOLON  shift, and go to state 19
+
+
+State 2
+
+   22 factor: T_INT_LITERAL •
+
+    $default  reduce using rule 22 (factor)
+
+
+State 3
+
+   25 ident: T_VAR_IDENT •
+
+    $default  reduce using rule 25 (ident)
+
+
+State 4
+
+   23 factor: T_LEFT_PAR • expr T_RIGHT_PAR
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    expr    go to state 20
+    add     go to state 14
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 21
+
+
+State 5
+
+   24 factor: T_MINUS • T_INT_LITERAL
+
+    T_INT_LITERAL  shift, and go to state 22
+
+
+State 6
+
+   26 if: T_IF • expr T_THEN stmts T_ELSE stmts T_FI
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    expr    go to state 23
+    add     go to state 14
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 21
+
+
+State 7
+
+    9 skip: T_SKIP •
+
+    $default  reduce using rule 9 (skip)
+
+
+State 8
+
+    0 $accept: prog • $end
+
+    $end  shift, and go to state 24
+
+
+State 9
+
+    1 prog: stmts • T_END
+
+    T_END  shift, and go to state 25
+
+
+State 10
+
+    3 stmts: stmt • T_SEMICOLON stmts
+
+    T_SEMICOLON  shift, and go to state 26
+
+
+State 11
+
+    8 stmt: skip •
+
+    $default  reduce using rule 8 (stmt)
+
+
+State 12
+
+    5 stmt: assign •
+
+    $default  reduce using rule 5 (stmt)
+
+
+State 13
+
+    6 stmt: expr •
+   11 expr: expr • T_EQ add
+   12     | expr • T_LESS add
+   13     | expr • T_NEQ add
+
+    T_EQ    shift, and go to state 27
+    T_LESS  shift, and go to state 28
+    T_NEQ   shift, and go to state 29
+
+    $default  reduce using rule 6 (stmt)
+
+
+State 14
+
+   14 expr: add •
+   15 add: add • T_PLUS term
+   16    | add • T_MINUS term
+
+    T_PLUS   shift, and go to state 30
+    T_MINUS  shift, and go to state 31
+
+    $default  reduce using rule 14 (expr)
+
+
+State 15
+
+   17 add: term •
+   18 term: term • T_MUL factor
+   19     | term • T_DIV factor
+
+    T_MUL  shift, and go to state 32
+    T_DIV  shift, and go to state 33
+
+    $default  reduce using rule 17 (add)
+
+
+State 16
+
+   20 term: factor •
+
+    $default  reduce using rule 20 (term)
+
+
+State 17
+
+   10 assign: ident • T_ASSIGN expr
+   21 factor: ident •
+
+    T_ASSIGN  shift, and go to state 34
+
+    $default  reduce using rule 21 (factor)
+
+
+State 18
+
+    7 stmt: if •
+
+    $default  reduce using rule 7 (stmt)
+
+
+State 19
+
+    4 stmts: error T_SEMICOLON • stmts
+
+    error          shift, and go to state 1
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+    T_IF           shift, and go to state 6
+    T_SKIP         shift, and go to state 7
+
+    T_ELSE  reduce using rule 2 (stmts)
+    T_FI    reduce using rule 2 (stmts)
+    T_END   reduce using rule 2 (stmts)
+
+    stmts   go to state 35
+    stmt    go to state 10
+    skip    go to state 11
+    assign  go to state 12
+    expr    go to state 13
+    add     go to state 14
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 17
+    if      go to state 18
+
+
+State 20
+
+   11 expr: expr • T_EQ add
+   12     | expr • T_LESS add
+   13     | expr • T_NEQ add
+   23 factor: T_LEFT_PAR expr • T_RIGHT_PAR
+
+    T_RIGHT_PAR  shift, and go to state 36
+    T_EQ         shift, and go to state 27
+    T_LESS       shift, and go to state 28
+    T_NEQ        shift, and go to state 29
+
+
+State 21
+
+   21 factor: ident •
+
+    $default  reduce using rule 21 (factor)
+
+
+State 22
+
+   24 factor: T_MINUS T_INT_LITERAL •
+
+    $default  reduce using rule 24 (factor)
+
+
+State 23
+
+   11 expr: expr • T_EQ add
+   12     | expr • T_LESS add
+   13     | expr • T_NEQ add
+   26 if: T_IF expr • T_THEN stmts T_ELSE stmts T_FI
+
+    T_EQ    shift, and go to state 27
+    T_LESS  shift, and go to state 28
+    T_NEQ   shift, and go to state 29
+    T_THEN  shift, and go to state 37
+
+
+State 24
+
+    0 $accept: prog $end •
+
+    $default  accept
+
+
+State 25
+
+    1 prog: stmts T_END •
+
+    $default  reduce using rule 1 (prog)
+
+
+State 26
+
+    3 stmts: stmt T_SEMICOLON • stmts
+
+    error          shift, and go to state 1
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+    T_IF           shift, and go to state 6
+    T_SKIP         shift, and go to state 7
+
+    T_ELSE  reduce using rule 2 (stmts)
+    T_FI    reduce using rule 2 (stmts)
+    T_END   reduce using rule 2 (stmts)
+
+    stmts   go to state 38
+    stmt    go to state 10
+    skip    go to state 11
+    assign  go to state 12
+    expr    go to state 13
+    add     go to state 14
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 17
+    if      go to state 18
+
+
+State 27
+
+   11 expr: expr T_EQ • add
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    add     go to state 39
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 21
+
+
+State 28
+
+   12 expr: expr T_LESS • add
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    add     go to state 40
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 21
+
+
+State 29
+
+   13 expr: expr T_NEQ • add
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    add     go to state 41
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 21
+
+
+State 30
+
+   15 add: add T_PLUS • term
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    term    go to state 42
+    factor  go to state 16
+    ident   go to state 21
+
+
+State 31
+
+   16 add: add T_MINUS • term
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    term    go to state 43
+    factor  go to state 16
+    ident   go to state 21
+
+
+State 32
+
+   18 term: term T_MUL • factor
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    factor  go to state 44
+    ident   go to state 21
+
+
+State 33
+
+   19 term: term T_DIV • factor
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    factor  go to state 45
+    ident   go to state 21
+
+
+State 34
+
+   10 assign: ident T_ASSIGN • expr
+
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+
+    expr    go to state 46
+    add     go to state 14
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 21
+
+
+State 35
+
+    4 stmts: error T_SEMICOLON stmts •
+
+    $default  reduce using rule 4 (stmts)
+
+
+State 36
+
+   23 factor: T_LEFT_PAR expr T_RIGHT_PAR •
+
+    $default  reduce using rule 23 (factor)
+
+
+State 37
+
+   26 if: T_IF expr T_THEN • stmts T_ELSE stmts T_FI
+
+    error          shift, and go to state 1
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+    T_IF           shift, and go to state 6
+    T_SKIP         shift, and go to state 7
+
+    T_ELSE  reduce using rule 2 (stmts)
+
+    stmts   go to state 47
+    stmt    go to state 10
+    skip    go to state 11
+    assign  go to state 12
+    expr    go to state 13
+    add     go to state 14
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 17
+    if      go to state 18
+
+
+State 38
+
+    3 stmts: stmt T_SEMICOLON stmts •
+
+    $default  reduce using rule 3 (stmts)
+
+
+State 39
+
+   11 expr: expr T_EQ add •
+   15 add: add • T_PLUS term
+   16    | add • T_MINUS term
+
+    T_PLUS   shift, and go to state 30
+    T_MINUS  shift, and go to state 31
+
+    $default  reduce using rule 11 (expr)
+
+
+State 40
+
+   12 expr: expr T_LESS add •
+   15 add: add • T_PLUS term
+   16    | add • T_MINUS term
+
+    T_PLUS   shift, and go to state 30
+    T_MINUS  shift, and go to state 31
+
+    $default  reduce using rule 12 (expr)
+
+
+State 41
+
+   13 expr: expr T_NEQ add •
+   15 add: add • T_PLUS term
+   16    | add • T_MINUS term
+
+    T_PLUS   shift, and go to state 30
+    T_MINUS  shift, and go to state 31
+
+    $default  reduce using rule 13 (expr)
+
+
+State 42
+
+   15 add: add T_PLUS term •
+   18 term: term • T_MUL factor
+   19     | term • T_DIV factor
+
+    T_MUL  shift, and go to state 32
+    T_DIV  shift, and go to state 33
+
+    $default  reduce using rule 15 (add)
+
+
+State 43
+
+   16 add: add T_MINUS term •
+   18 term: term • T_MUL factor
+   19     | term • T_DIV factor
+
+    T_MUL  shift, and go to state 32
+    T_DIV  shift, and go to state 33
+
+    $default  reduce using rule 16 (add)
+
+
+State 44
+
+   18 term: term T_MUL factor •
+
+    $default  reduce using rule 18 (term)
+
+
+State 45
+
+   19 term: term T_DIV factor •
+
+    $default  reduce using rule 19 (term)
+
+
+State 46
+
+   10 assign: ident T_ASSIGN expr •
+   11 expr: expr • T_EQ add
+   12     | expr • T_LESS add
+   13     | expr • T_NEQ add
+
+    T_EQ    shift, and go to state 27
+    T_LESS  shift, and go to state 28
+    T_NEQ   shift, and go to state 29
+
+    $default  reduce using rule 10 (assign)
+
+
+State 47
+
+   26 if: T_IF expr T_THEN stmts • T_ELSE stmts T_FI
+
+    T_ELSE  shift, and go to state 48
+
+
+State 48
+
+   26 if: T_IF expr T_THEN stmts T_ELSE • stmts T_FI
+
+    error          shift, and go to state 1
+    T_INT_LITERAL  shift, and go to state 2
+    T_VAR_IDENT    shift, and go to state 3
+    T_LEFT_PAR     shift, and go to state 4
+    T_MINUS        shift, and go to state 5
+    T_IF           shift, and go to state 6
+    T_SKIP         shift, and go to state 7
+
+    T_FI  reduce using rule 2 (stmts)
+
+    stmts   go to state 49
+    stmt    go to state 10
+    skip    go to state 11
+    assign  go to state 12
+    expr    go to state 13
+    add     go to state 14
+    term    go to state 15
+    factor  go to state 16
+    ident   go to state 17
+    if      go to state 18
+
+
+State 49
+
+   26 if: T_IF expr T_THEN stmts T_ELSE stmts • T_FI
+
+    T_FI  shift, and go to state 50
+
+
+State 50
+
+   26 if: T_IF expr T_THEN stmts T_ELSE stmts T_FI •
+
+    $default  reduce using rule 26 (if)

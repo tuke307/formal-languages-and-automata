@@ -1,0 +1,7 @@
+X := +10;
+intermediate_result := 0;
+while (100 < X) X := X + -1; od;
+intermediate_result := X;
+if (255 == X) then
+    intermediate_result := 0;
+fi;

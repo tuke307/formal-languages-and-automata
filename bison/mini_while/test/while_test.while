@@ -1,0 +1,7 @@
+# Computes input % 10
+x := input;
+while 9 < x do
+    x := x - 10;
+od;
+result := x;
+end

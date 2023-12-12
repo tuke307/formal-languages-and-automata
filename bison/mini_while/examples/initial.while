@@ -1,0 +1,8 @@
+# example program
+x := input;
+if x < 10 then
+    result := 0;
+else
+    result := 1;
+fi;
+end
