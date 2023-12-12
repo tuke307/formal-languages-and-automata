@@ -268,3 +268,9 @@ desktop.ini
 images/
 
 *.output
+*.spec
+*.o
+
+*
+!*.*
+!*/
